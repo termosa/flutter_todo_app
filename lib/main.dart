@@ -18,6 +18,8 @@ class TasksRoute extends StatefulWidget {
   TasksRouteState createState() => TasksRouteState();
 }
 
+final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
 class TasksRouteState extends State<TasksRoute> {
   List<Task> tasks = [
     Task('Getting Started'),
@@ -30,6 +32,7 @@ class TasksRouteState extends State<TasksRoute> {
       debugShowCheckedModeBanner: false,
       title: appTitle,
       home: Scaffold(
+        key: scaffoldKey,
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: backgroundColor,
@@ -68,12 +71,48 @@ class TasksRouteState extends State<TasksRoute> {
           tooltip: 'Add new todo',
           onPressed: () => _act(),
         ),
+        bottomSheet: CreateForm(),
       ),
     );
   }
 
   _act() {
     print('acting');
+    if (false) {
+      scaffoldKey.currentState.showBottomSheet<Null>((BuildContext contet) {
+        return CreateForm();
+      });
+    }
+  }
+}
+
+class CreateForm extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        border: Border(
+          top: BorderSide(color: Theme.of(context).dividerColor),
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(
+              top: 20.0,
+              bottom: 50.0,
+              left: 40.0,
+              right: 40.0,
+            ),
+            child: TextField(
+              decoration: InputDecoration(hintText: 'What to do?'),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
